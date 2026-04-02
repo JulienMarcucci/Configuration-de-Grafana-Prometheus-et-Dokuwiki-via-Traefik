@@ -1,0 +1,35 @@
+[http]
+
+  [http.routers]
+
+    [http.routers.grafana]
+      rule = "Host(`grafana.mediaschool.local`)"
+      service = "grafana_service"
+      entryPoints = ["web"]
+      middlewares = ["secureHeaders"]
+
+    [http.routers.prometheus]
+      rule = "Host(`prometheus.mediaschool.local`)"
+      service = "prometheus_service"
+      entryPoints = ["web"]
+      middlewares = ["secureHeaders"]
+
+    [http.routers.wiki]
+      rule = "Host(`wiki.mediaschool.local`)"
+      service = "wiki_service"
+      entryPoints = ["web"]
+      middlewares = ["secureHeaders"]
+
+  [http.services]
+
+    [http.services.grafana_service.loadBalancer]
+      [[http.services.grafana_service.loadBalancer.servers]]
+        url = "http://192.168.253.139:3000"
+
+    [http.services.prometheus_service.loadBalancer]
+      [[http.services.prometheus_service.loadBalancer.servers]]
+        url = "http://192.168.253.139:9090"
+
+    [http.services.wiki_service.loadBalancer]
+      [[http.services.wiki_service.loadBalancer.servers]]
+        url = "http://192.168.253.140:8080"  
